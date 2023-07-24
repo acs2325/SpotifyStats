@@ -1,6 +1,6 @@
 # SpotifyStats
 
-Setup: If you request your data from spotify, it gets sent in the form of a folder called `MyData`. This repo is structured as follows: create a directory with your name, and place `MyData` inside. An example is given in the form of the `andrew` directory included. Scrpits are structured to read streaming history json files according to this structure. 
+Setup: If you request your data from spotify, it gets sent in the form of a folder called `MyData`. This repo is structured as follows: create a directory with your name, and place `MyData` inside. An example is given in the form of the `andrew` directory included. Scrpits are structured to read a streaming history json file `$user/MyData/stream_hist.json` according to this structure. 
 
 ## quick stats
 
