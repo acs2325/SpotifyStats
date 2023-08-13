@@ -1,4 +1,5 @@
 import pandas as pd
+import glob
 import numpy as np
 import json
 import matplotlib.pyplot as plt
@@ -12,6 +13,8 @@ font = {'weight' : 'bold',
 
 plt.rc('font', **font)
 
+USER = 'andrew'
+
 #names of dataframe columns
 artist = 'artistName'
 track = 'trackName'
@@ -20,6 +23,8 @@ time = 'msPlayed'
 time_thresh = 10 #seconds
 ms_s = 1000 #ms per second
 
+
+
 def getDf(fpath = "andrew/MyData/stream_hist.json"):
 
     with open(fpath, "r") as read_file:
@@ -27,6 +32,25 @@ def getDf(fpath = "andrew/MyData/stream_hist.json"):
         data = json.load(read_file)
 
         return pd.DataFrame(data)
+
+def getMergedDf(user = 'andrew'):
+    result = list()
+
+    StreamingHistFiles = glob.glob(user + '/MyData/StreamingHistory*.json')
+
+    for f1 in StreamingHistFiles:
+        with open(f1, 'r') as infile:
+            result.extend(json.load(infile))
+
+    with open('FullHist.json', 'w') as output_file:
+        json.dump(result, output_file)
+
+    with open('FullHist.json', "r") as read_file:
+
+        data = json.load(read_file)
+
+        return pd.DataFrame(data)
+
     
 def sortByOccurences(a,columnn, N = -1):
 
@@ -136,8 +160,9 @@ def plot_compare_users(tuptupA,tuptupB):
 
 if __name__ == "__main__":
 
-    andrews = getDf("andrew/MyData/stream_hist.json")
-    tonys = getDf("anthony/MyData/stream_hist.json")
+    andrews = getMergedDf(user = 'andrew')
+    #andrews = getDf("andrew/MyData/stream_hist.json")
+    #tonys = getDf("anthony/MyData/stream_hist.json")
 
     plot_stacked_bar(getTopNbyListens(andrews, 75),1)
-    plot_stacked_bar(getTopNbyListens(tonys, 75),1)
+    #plot_stacked_bar(getTopNbyListens(tonys, 75),1)
